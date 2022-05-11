@@ -1,0 +1,9 @@
+reset;
+model AmongUs_gavishgraves.mod;
+data AmongUs_gavishgraves.dat;
+option solver cplex;
+solve;
+display x;
+display F;
+display Z;
+
