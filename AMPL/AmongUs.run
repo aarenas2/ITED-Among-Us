@@ -1,9 +1,0 @@
-reset;
-model AmongUs.mod;
-data AmongUs.dat;
-option solver cplex;
-solve;
-display x;
-display F;
-display Z;
-
