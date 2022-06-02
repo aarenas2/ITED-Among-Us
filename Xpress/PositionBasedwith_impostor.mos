@@ -1,0 +1,102 @@
+model NoImp
+uses "mmxprs"; !gain access to the Xpress-Optimizer solver
+
+declarations
+!Sets
+T:set of string !Areas of the spaceship
+V: set of string  !Areas visited by the importor
+
+P:set of integer !Positions in the tour
+!Parameters
+r:array (T) of real !Time required to perform each tast
+t:array (T,T) of real !Travel time between areas in the spaceship
+a: array(V) of real !Arrival time of the impostor to a given area
+b: array(V) of real !Departura  time of the impostor to a given area
+
+
+!Decision variables
+X:array (T,T) of mpvar  !Traveling a given arc or not
+Q:array (T,P) of mpvar  !Position in which each area is visited 
+Tau: array(T) of mpvar  !Arrival time to each area
+Y: array (V) of mpvar !arriving  before of after the impostor
+end-declarations
+
+initializations from 'AmongUs.dat'
+	T P t r V a b
+end-initializations
+!Objective function
+Time:=sum(i in T, j in T)t(i,j)*X(i,j)+sum(i in T)r(i)
+!Total time of performing the tour
+Makespan:= Tau("Cafeteria_finish")
+
+!Constraints
+!Cafeteria_start is the start of the tour
+Q("Cafeteria_start",1)=	1
+!Medbay is the first place in the tour
+Q("Medbay",2)=1
+!Cafeteria_finish  is the end of the tour
+Q("Cafeteria_finish",12)=1
+!Departing once to each area in the spaceship
+forall(i in T|i<>"Cafeteria_finish")
+sum(j in T)X(i,j)=1
+!Entering once to each area in the spaceship
+forall(j in T|j<>"Cafeteria_start")
+sum(i in T)X(i,j)=1
+!Logical relation between decision variables (linearization of the quadratic term)
+forall(i in T, j in T, k in P|k<=11)
+1+X(i,j)>=Q(i,k)+Q(j,k+1)
+
+!All places have a single area assigned to it
+forall(p in P)
+sum(i in T)Q(i,p)=1
+!All areas  have a single position  assigned to it
+forall(i in T)
+sum(p in P)Q(i,p)=1
+
+!Decision variables domain
+forall(i in T, j in T)
+X(i,j) is_binary
+forall(i in T, p in P)
+Q(i,p) is_binary
+
+
+!The impostor:
+!Para tener en cuenta el impostor
+forall (i in T, j in T |i<>j)
+Tau(i)+r(i)+t(i,j)*X(i,j)<=Tau(j)+ (1-X(i,j))*100
+
+!Para todos los lugares por donde pasa el impostor 
+forall(i in V) do
+	Y(i) is_binary
+ 	Tau(i)+r(i)<=a(i)+100*(1-Y(i))
+	Tau(i)>=b(i)*(1-Y(i))
+end-do
+
+
+minimize(Makespan)
+!write value of Tiempo to output
+
+writeln("----------------------------------------------")
+!write value(s) of the tour 
+
+forall (i1 in P) do
+	forall (i2 in T) do
+		if getsol(Q(i2,i1))>0 then
+			writeln("The area  visited in position  ", i1," is  ",i2)
+			writeln("The arrival time is: ",getsol(Tau(i2)))
+			
+			forall (i3 in T) do
+				if (getsol(X(i2,i3))>0) then
+						writeln("Then variable X(",i2,",",i3,") is: ", getsol(X(i2,i3)), " to go to the next area with travel time " , t(i2,i3))								
+				end-if
+			end-do
+	
+		end-if
+	end-do
+end-do
+	
+writeln("----------------------------------------------")
+
+writeln("The time to complete the tour in the spaceship is: "+getsol(Makespan))
+
+end-model
