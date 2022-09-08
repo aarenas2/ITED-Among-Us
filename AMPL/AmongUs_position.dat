@@ -1,0 +1,49 @@
+set N := Reactor	UpperEngine	MedBay	Electrical	CafeteriaStart CafeteriaFinish	Storage	Weapons	O2	Admin	Shields	Navigation;
+set N1 := Reactor	UpperEngine	MedBay	Electrical	CafeteriaStart 	Storage	Weapons	O2	Admin	Shields	Navigation;
+set N2 := Reactor	UpperEngine	MedBay	Electrical	CafeteriaFinish	Storage	Weapons	O2	Admin	Shields	Navigation;
+set T := Reactor	UpperEngine	MedBay	Electrical Storage	Weapons	O2	Admin	Shields	Navigation;
+set V := O2			Weapons	Admin 	Reactor	UpperEngine	Storage	Shields	Navigation;
+set P := 1 2 3 4 5 6 7 8 9 10 11 12;
+
+param tiempos:
+CafeteriaStart	CafeteriaFinish	MedBay	Reactor	UpperEngine	Electrical	Storage	Weapons	O2	Admin	Shields	Navigation:=
+CafeteriaStart	0	0	4.12	9.34	7.57	5.66	6.08	4	3.61	4.47	6.4	7.43
+CafeteriaFinish	0	0	4.12	9.34	7.57	5.66	6.08	4	3.61	4.47	6.4	7.43
+MedBay	4.12	4.12	0	5.22	4.03	3	5.83	8.06	7.07	6.71	8.94	11.1
+Reactor	9.34	9.34	5.22	0	3.81	5.22	8.73	13.24	12.01	11.1	13.24	16
+UpperEngine	7.57	7.57	4.03	3.81	0	6.1	9.55	11.54	10.92	10.74	12.97	14.92
+Electrical	5.66	5.66	3	5.22	6.1	0	3.61	8.94	7.28	6	8.06	11.1
+Storage	6.08	6.08	5.83	8.73	9.55	3.61	0	7.81	5.66	3.61	5.1	8.73
+Weapons	4	4	8.06	13.24	11.54	8.94	7.81	0	2.24	4.47	5	3.91
+O2	3.61	3.61	7.07	12.01	10.92	7.28	5.66	2.24	0	2.24	3.16	4.03
+Admin	4.47	4.47	6.71	11.1	10.74	6	3.61	4.47	2.24	0	2.24	5.22
+Shields	6.4	6.4	8.94	13.24	12.97	8.06	5.1	5	3.16	2.24	0	3.91
+Navigation	7.43	7.43	11.1	16	14.92	11.1	8.73	3.91	4.03	5.22	3.91	0;
+
+
+param: tar:=
+Reactor	2
+UpperEngine	3
+MedBay	4
+Electrical	3
+Storage	4
+Weapons	5
+O2	2
+Admin	1
+Shields	5
+Navigation	2
+CafeteriaStart 0
+CafeteriaFinish 0;
+
+param: telleg tesal:=
+O2	1	3.8
+Weapons	4	5
+Admin	7	10	
+Reactor	16	22
+UpperEngine	24	29
+Storage	30	36
+Shields	37	45
+Navigation	46	55;
+
+
+

@@ -1,0 +1,10 @@
+reset;
+model AmongUs_position.mod;
+data AmongUs_position.dat;
+option solver cplex;
+solve;
+display x;
+display Tau;
+display y;
+display Q;
+

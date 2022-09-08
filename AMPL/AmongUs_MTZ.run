@@ -1,0 +1,9 @@
+reset;
+model AmongUs_MTZ.mod;
+data AmongUs_MTZ.dat;
+option solver cplex;
+solve;
+display x;
+display Tau;
+display y;
+
