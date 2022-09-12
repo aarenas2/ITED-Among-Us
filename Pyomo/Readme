@@ -1,1 +1,3 @@
 This folder has the Pyomo implementation for the Among Us problem. It uses the MTZ formulation.
+
+Among Us data.xlsx must be manually uploaded to the repository
